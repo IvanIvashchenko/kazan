@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+{% if latest_ad_list %}
+    <ul>
+    {% for ad in latest_ad_list %}
+        <li><a href="/kazan/ad/{{ ad.id }}/">{{ ad.text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No ads are available.</p>
+{% endif %}
+</body>
+</html>
