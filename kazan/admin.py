@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kazan.models import User, Ad, Sale
+from kazan.models import UserProfile, Ad, Sale
 
 class SaleInline(admin.TabularInline):
     model = Sale
@@ -16,6 +16,6 @@ class UserAdmin(admin.ModelAdmin):
     ]
     inlines = [SaleInline, AdInline]
 
-admin.site.register(User, UserAdmin)
+admin.site.register(UserProfile, UserAdmin)
 # admin.site.register(Ad)
 # admin.site.register(Sale)

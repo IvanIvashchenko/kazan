@@ -4,8 +4,32 @@
     <title>User page</title>
 </head>
 <body>
-    You're looking at user with name {{ user.name }}
+    Вы попали на страницу пользователя {{ user.user.username }}
     <br/>
-    Email of this user: {{ user.email }}
+    Можете связаться с ним по email: {{ user.user.email }}
+    <br/>
+    <h3>Объявления пользователя</h3>
+    {% if latest_ad_list %}
+
+        <table>
+            <thead>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Price</th>
+            </thead>
+            <tbody>
+                {% for ad in latest_ad_list %}
+                    <tr>
+                        <td><a href="/kazan/ad/{{ ad.id }}/">{{ ad.title }}</a></td>
+                        <td>{{ ad.text }}</td>
+                        <td>{{ ad.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No ads are available.</p>
+    {% endif %}
 </body>
 </html>

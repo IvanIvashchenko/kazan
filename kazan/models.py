@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import smart_str
 from hashlib import md5, sha256
+from registration.models import RegistrationProfile
 
 
 def get_hexdigest(algorithm, salt, raw_password):
@@ -23,8 +25,9 @@ def get_hexdigest(algorithm, salt, raw_password):
     raise ValueError("Got unknown password algorithm type in password.")
 
 
-class User(models.Model):
+class UserProfile(RegistrationProfile):
 
+    # user = models.OneToOneField(RegistrationProfile)
     name = models.CharField(max_length=200)
     email = models.EmailField()
     password = models.CharField(('password'), max_length=128, help_text=("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
@@ -42,7 +45,7 @@ class User(models.Model):
 
 class Ad(models.Model):
 
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(RegistrationProfile)
     title = models.CharField(max_length=50)
     text = models.CharField(max_length=500)
     image = models.ImageField(upload_to='ads', null=True)
@@ -54,4 +57,4 @@ class Ad(models.Model):
 class Sale(models.Model):
 
     ad_id = models.ForeignKey(Ad)
-    buyer_id = models.ForeignKey(User)
+    buyer_id = models.ForeignKey(RegistrationProfile)

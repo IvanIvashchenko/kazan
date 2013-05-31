@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    {% block content %}
+    <h1>Выход</h1>
+    Спасибо, что были с нами. <a href="{% url 'auth_login' %}"> Ждем вас снова.</a> <br/><br/>
+    {% endblock %}
+
+</body>
+</html>

@@ -33,7 +33,7 @@ TIME_ZONE = 'Asia/Omsk'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 SITE_ID = 1
 
@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'kazan',
+    'registration',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -155,3 +156,19 @@ LOGGING = {
         },
     }
 }
+
+
+ACCOUNT_ACTIVATION_DAYS = 2
+
+# for sending code of activation
+AUTH_USER_EMAIL_UNIQUE = True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'info@google.ru'
+
+LOGIN_REDIRECT_URL = '/kazan'
+
+AUTH_PROFILE_MODULE = 'kazan.UserProfile'

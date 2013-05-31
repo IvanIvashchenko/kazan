@@ -4,14 +4,34 @@
     <title></title>
 </head>
 <body>
-{% if latest_ad_list %}
-    <ul>
-    {% for ad in latest_ad_list %}
-        <li><a href="/kazan/ad/{{ ad.id }}/">{{ ad.text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No ads are available.</p>
-{% endif %}
+    <a href="{% url 'auth_logout' %}">Выход</a>.<br/><br/>
+    {% if latest_ad_list %}
+
+        <table>
+            <thead>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Price</th>
+            </thead>
+            <tbody>
+                {% for ad in latest_ad_list %}
+                    <tr>
+                        <td><a href="/kazan/ad/{{ ad.id }}/">{{ ad.title }}</a></td>
+                        <td>{{ ad.text }}</td>
+                        <td>{{ ad.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No ads are available.</p>
+    {% endif %}
+
+    <form action="/kazan/" method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Добавить" />
+    </form>
+
 </body>
 </html>
