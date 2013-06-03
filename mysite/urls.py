@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^kazan/', include('kazan.urls')),
-    url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^register/', include('registration.auth_urls')),
+    # url(r'^accounts/', include('registration.backends.default.urls')),
+    # url(r'^register/', include('registration.auth_urls')),
 )

@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'kazan',
-    'registration',
+    # 'registration',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -171,4 +171,4 @@ DEFAULT_FROM_EMAIL = 'info@google.ru'
 
 LOGIN_REDIRECT_URL = '/kazan'
 
-AUTH_PROFILE_MODULE = 'kazan.UserProfile'
+AUTH_PROFILE_MODULE = 'kazan.Owner'

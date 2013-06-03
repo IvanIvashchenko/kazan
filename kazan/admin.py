@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kazan.models import UserProfile, Ad, Sale
+from kazan.models import Owner, Ad, Sale
 
 class SaleInline(admin.TabularInline):
     model = Sale
@@ -10,12 +10,12 @@ class AdInline(admin.TabularInline):
     extra = 3
 
 class UserAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['name']}),
-        ('Information', {'fields': ['email'], 'classes': ['collapse']}),
-    ]
+    # fieldsets = [
+    #     (None,               {'fields': ['name']}),
+    #     ('Information', {'fields': ['email'], 'classes': ['collapse']}),
+    # ]
     inlines = [SaleInline, AdInline]
 
-admin.site.register(UserProfile, UserAdmin)
+admin.site.register(Owner, UserAdmin)
 # admin.site.register(Ad)
 # admin.site.register(Sale)
