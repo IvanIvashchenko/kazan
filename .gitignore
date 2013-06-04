@@ -1,4 +1,6 @@
 ads/*
+users/*
 .*
 !.gitignore
 *.pyc
+*.png

@@ -12,8 +12,23 @@ def index(request):
 
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/kazan/registration/register/')
-    latest_ad_list = Ad.objects.order_by('price')[:5]
-    form = CreateAdForm()
+    latest_ad_list = Ad.objects.order_by('price')[:15]
+    if request.method == 'POST':
+        form = CreateAdForm(request.POST, request.FILES)
+        if form.is_valid():
+            advertisement = Ad.objects.create(title=form.cleaned_data['title'],
+                                              text=form.cleaned_data['text'],
+                                              price=form.cleaned_data['price'],
+                                              owner=Owner.objects.get(user_id=request.session._session.get('_auth_user_id')),
+                                              image=request.FILES['image']
+            )
+            advertisement.save()
+            return HttpResponseRedirect('/kazan/')
+
+    else:
+        form = CreateAdForm()
+    # else:
+    #     return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
     context = {'latest_ad_list': latest_ad_list, 'form': form}
 
     # if form.is_valid():

@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils.encoding import smart_str
 from hashlib import md5, sha256
-# from registration.models import RegistrationProfile
+from mysite import settings
 
 
 def get_hexdigest(algorithm, salt, raw_password):
@@ -29,21 +29,10 @@ def get_hexdigest(algorithm, salt, raw_password):
 class Owner(models.Model):
 
     user = models.OneToOneField(User)
-    # name = models.CharField(max_length=200)
-    # email = models.EmailField()
-    # password = models.CharField(('password'), max_length=128, help_text=("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
     image = models.ImageField(upload_to='users', null=True)
 
     def __unicode__(self):
         return self.name
-
-    def set_password(self, raw_password):
-        import random
-        algo = 'sha1'
-        salt = get_hexdigest(algo, str(random.random()), str(random.random()))[:5]
-        hsh = get_hexdigest(algo, salt, raw_password)
-        self.password = '%s$%s$%s' % (algo, salt, hsh)
-
 
 #create our user object to attach to our user_profile object
 def create_owner_user_callback(sender, instance, **kwargs):
@@ -53,7 +42,7 @@ post_save.connect(create_owner_user_callback, User)
 
 class Ad(models.Model):
 
-    # owner = models.ForeignKey(RegistrationProfile)
+    owner = models.ForeignKey(Owner)
     title = models.CharField(max_length=50)
     text = models.CharField(max_length=500)
     image = models.ImageField(upload_to='ads', null=True)
@@ -65,4 +54,4 @@ class Ad(models.Model):
 class Sale(models.Model):
 
     ad_id = models.ForeignKey(Ad)
-    # buyer_id = models.ForeignKey(RegistrationProfile)
+    buyer_id = models.ForeignKey(Owner)
