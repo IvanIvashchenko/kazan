@@ -10,9 +10,11 @@ from kazan.models import Ad, Owner, Sale
 
 def index(request):
 
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/kazan/registration/register/')
     latest_ad_list = Ad.objects.order_by('price')[:5]
     form = CreateAdForm()
-    context = {'latest_ad_list': latest_ad_list, 'form' : form}
+    context = {'latest_ad_list': latest_ad_list, 'form': form}
 
     # if form.is_valid():
     #     return HttpResponseRedirect('kazan/index.html')
@@ -42,8 +44,6 @@ def owner_registration(request):
         if form.is_valid():
             user = User.objects.create_user(username=form.cleaned_data['username'], email=form.cleaned_data['email'], password=form.cleaned_data['password'])
             user.save()
-            # owner = Owner(user=user)
-            # owner.save()
             return HttpResponseRedirect('/kazan/')
         else:
             return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
@@ -77,4 +77,4 @@ def login_request(request):
 
 def logout_request(request):
         logout(request)
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/kazan/registration/login')

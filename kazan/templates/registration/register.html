@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title></title>#}
+{#</head>#}
+{#<body>#}
+    {% extends 'base.html' %}
     {% block content %}
         <h1>Create an account</h1>
         <form action="" method="post"> {% csrf_token %}
@@ -13,5 +14,5 @@
             <input type="submit" value="Create the account">
         </form>
     {% endblock %}
-</body>
-</html>
+{#</body>#}
+{#</html>#}

@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-{#   <!-- <a href="{% url 'auth_logout' %}">Выход</a>.<br/><br/> -->#}
+{% extends "base.html" %}
+{% block content %}
     {% if latest_ad_list %}
 
         <table>
@@ -32,6 +27,4 @@
         {{ form.as_p }}
         <input type="submit" value="Добавить" />
     </form>
-
-</body>
-</html>
+{% endblock %}

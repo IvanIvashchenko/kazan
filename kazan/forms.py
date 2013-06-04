@@ -8,8 +8,8 @@ class RegistrationForm(ModelForm):
 
     username = forms.CharField(label=('User Name'))
     email = forms.EmailField(label=('Email Address'))
-    password = forms.CharField(label=('Password'), widget=forms.PasswordInput(render_value=False))
-    # password1 = forms.CharField(label=('Verify Password'), widget=forms.PasswordInput(render_value=False))
+    password = forms.CharField(label=('Password'), widget=forms.PasswordInput(render_value=False), required=True)
+    password1 = forms.CharField(label=('Verify Password'), widget=forms.PasswordInput(render_value=False), required=True)
 
     class Meta:
         model = Owner
@@ -25,9 +25,9 @@ class RegistrationForm(ModelForm):
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
-        # password1 = self.cleaned_data.get('password1')
-        if not password:
-            raise forms.ValidationError('Password field is empty')
+        password1 = self.cleaned_data.get('password1')
+        if password != password1:
+            raise forms.ValidationError('The passwords did not match.  Please try again.')
         return password
 
 class LoginForm(forms.Form):
