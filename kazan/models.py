@@ -37,7 +37,7 @@ class Owner(models.Model):
 #create our user object to attach to our user_profile object
 def create_owner_user_callback(sender, instance, **kwargs):
     owner, new = Owner.objects.get_or_create(user=instance)
-post_save.connect(create_owner_user_callback, User)
+# post_save.connect(create_owner_user_callback, User)
 
 
 class Ad(models.Model):

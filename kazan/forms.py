@@ -8,12 +8,14 @@ class RegistrationForm(ModelForm):
 
     username = forms.CharField(label=('User Name'))
     email = forms.EmailField(label=('Email Address'))
-    password = forms.CharField(label=('Password'), widget=forms.PasswordInput(render_value=False), required=True)
-    password1 = forms.CharField(label=('Verify Password'), widget=forms.PasswordInput(render_value=False), required=True)
+    passwd = forms.CharField(label=('Password'), widget=forms.PasswordInput(render_value=False), required=True)
+    checked_passwd = forms.CharField(label=('Verify Password'), widget=forms.PasswordInput(render_value=False), required=True)
+    image = forms.ImageField(label=('User Picture'), required=False)
+
 
     class Meta:
         model = Owner
-        exclude = ('user', 'image')
+        exclude = ('user',)
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -24,9 +26,9 @@ class RegistrationForm(ModelForm):
         raise forms.ValidationError('This username is already exist, please select another')
 
     def clean_password(self):
-        password = self.cleaned_data.get('password')
-        password1 = self.cleaned_data.get('password1')
-        if password != password1:
+        password = self.cleaned_data.get('passwd')
+        checked_password = self.cleaned_data.get('checked_passwd')
+        if password != checked_password:
             raise forms.ValidationError('The passwords did not match.  Please try again.')
         return password
 

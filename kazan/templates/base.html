@@ -12,6 +12,7 @@
             {% else %}
                 <p><a href="{% url 'login' %}">Login</a></p>
             {% endif %}
+            <p><a href="{% url 'index' %}">Main</a></p>
         </div>
         {% block content %}
         {% endblock %}

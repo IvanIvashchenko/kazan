@@ -1,5 +1,6 @@
 ads/*
 users/*
+media/*
 .*
 !.gitignore
 *.pyc

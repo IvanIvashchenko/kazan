@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
+from django.conf.urls.static import static
 from django.contrib import admin
+from mysite import settings
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -17,4 +20,4 @@ urlpatterns = patterns('',
     url(r'^kazan/', include('kazan.urls')),
     # url(r'^accounts/', include('registration.backends.default.urls')),
     # url(r'^register/', include('registration.auth_urls')),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,7 +18,7 @@
                         <td>{{ ad.price }}</td>
                         <td>{{ ad.owner.user.username }}</td>
                         <td>
-                            <img src="../{{ ad.image }}" alt="My image"/>
+                            <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="Ad image"/>
                         </td>
                     </tr>
                 {% endfor %}

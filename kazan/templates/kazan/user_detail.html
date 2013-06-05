@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>User page</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     Вы попали на страницу пользователя {{ user.user.username }}
     <br/>
     Можете связаться с ним по email: {{ user.user.email }}
     <br/>
+    <img src="{{ MEDIA_URL }}{{ user.image }}" alt="User image"/>
     <h3>Объявления пользователя</h3>
     {% if latest_ad_list %}
 
@@ -16,6 +13,7 @@
                 <th>Title</th>
                 <th>Text</th>
                 <th>Price</th>
+                <th>Image</th>
             </thead>
             <tbody>
                 {% for ad in latest_ad_list %}
@@ -23,6 +21,7 @@
                         <td><a href="/kazan/ad/{{ ad.id }}/">{{ ad.title }}</a></td>
                         <td>{{ ad.text }}</td>
                         <td>{{ ad.price }}</td>
+                        <td><img src="{{ MEDIA_URL }}{{ ad.image }}" alt="Ad image"/></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -31,5 +30,4 @@
     {% else %}
         <p>No ads are available.</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}
