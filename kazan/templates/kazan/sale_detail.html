@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block extrahead %}
+    <title>Sale</title>
+{% endblock %}
+
+{% block content %}
 
     Вы попали на страницу транзакции {{ sale.id }}
     <br/>
     Лот {{ sale.ad_id.title }} был продан пользователю {{ sale.buyer_id.user.username }}
-</body>
-</html>
+{% endblock %}

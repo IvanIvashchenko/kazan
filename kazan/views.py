@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from kazan.forms import CreateAdForm, RegistrationForm, LoginForm
@@ -46,8 +46,16 @@ def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     return render(request, 'kazan/ad_detail.html', {'ad': ad})
 
-def sale_detail(request, sale_id):
+def sale_detail(request, sale_id, ad_id):
 
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/kazan/')
+    if request.method == 'POST':
+        advertisement = Ad.objects.get(id=ad_id)
+        owner = Owner.objects.get(id=request.user.id)
+        sale = Sale(ad=advertisement, buyer=owner)
+        sale.save()
+        return HttpResponseRedirect('/kazan/')
     sale = get_object_or_404(Sale, id=sale_id)
     return render(request, 'kazan/sale_detail.html', {'sale': sale})
 

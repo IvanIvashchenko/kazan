@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
 from django.utils.encoding import smart_str
 from hashlib import md5, sha256
-from mysite import settings
 
 
 def get_hexdigest(algorithm, salt, raw_password):
@@ -53,5 +51,5 @@ class Ad(models.Model):
 
 class Sale(models.Model):
 
-    ad_id = models.ForeignKey(Ad)
-    buyer_id = models.ForeignKey(Owner)
+    ad = models.ForeignKey(Ad)
+    buyer = models.ForeignKey(Owner)

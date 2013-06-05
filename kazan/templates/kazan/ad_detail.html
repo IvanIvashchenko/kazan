@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% block extrahead %}
+    <title>Advertisement</title>
+{% endblock %}
+
 {% block content %}
     <h2>{{ ad.title }}</h2>
     <br/>
@@ -6,7 +10,13 @@
     <br/>
     {{ ad.price}}
     <br/>
-    Было добавлено пользователем {{ ad.owner.user.username }}.
+    Было добавлено пользователем <a href="{% url 'user' ad.owner.id %}">{{ ad.owner.user.username }}</a>.
     <br/>
     <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="Ad image"/>
+    <br/>
+    Вы можете купить эту головную боль
+{#    OLOLOLOLOLOLOLO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    #}
+    <form action="{% url 'sale_detail' ad.id ad.id %}" method="POST">{% csrf_token %}
+        <input type="submit" value="Купить" />
+    </form>
 {% endblock %}
