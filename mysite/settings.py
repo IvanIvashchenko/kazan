@@ -78,8 +78,6 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-STATIC_DOC_ROOT = '/home/sevenbits/projects/python/mysite/kazan/media/'
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -164,17 +162,16 @@ LOGGING = {
 }
 
 
-ACCOUNT_ACTIVATION_DAYS = 2
-
-# for sending code of activation
+# for sending email
 AUTH_USER_EMAIL_UNIQUE = True
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'info@google.ru'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'pythonpython14@gmail.com'
+EMAIL_HOST_PASSWORD = 'python1488'
+EMAIL_USE_TLS = True
 
-LOGIN_REDIRECT_URL = '/kazan'
+DEFAULT_FROM_EMAIL = 'pythonpython14@gmail.com'
+
+LOGIN_REDIRECT_URL = '/kazan/'
 
 AUTH_PROFILE_MODULE = 'kazan.Owner'

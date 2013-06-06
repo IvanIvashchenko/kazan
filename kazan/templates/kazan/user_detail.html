@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block content %}
-    Вы попали на страницу пользователя {{ user.user.username }}
+    Вы попали на страницу пользователя {{ owner.user.username }}
     <br/>
-    Можете связаться с ним по email: {{ user.user.email }}
+    Можете связаться с ним по email: {{ owner.user.email }}
     <br/>
-    <img src="{{ MEDIA_URL }}{{ user.image }}" alt="User image"/>
+    <img src="{{ MEDIA_URL }}{{ owner.image }}" alt="User image"/>
     <h3>Объявления пользователя</h3>
     {% if latest_ad_list %}
 

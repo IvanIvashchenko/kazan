@@ -42,5 +42,3 @@ class CreateAdForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
     price = forms.FloatField()
     image = forms.ImageField()
-
-# class PurchaseForm(forms.Form):

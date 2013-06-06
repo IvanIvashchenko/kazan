@@ -1,31 +1,18 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from kazan.forms import CreateAdForm, RegistrationForm, LoginForm
 
 from kazan.models import Ad, Owner, Sale
+from mysite import settings
 
 
 def index(request):
 
-    # if not request.user.is_authenticated():
-    #     return HttpResponseRedirect('/kazan/registration/register/')
     latest_ad_list = Ad.objects.order_by('price')[:15]
-    # if request.method == 'POST':
-    #     form = CreateAdForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         advertisement = Ad.objects.create(title=form.cleaned_data['title'],
-    #                                           text=form.cleaned_data['text'],
-    #                                           price=form.cleaned_data['price'],
-    #                                           owner=Owner.objects.get(user_id=request.session._session.get('_auth_user_id')),
-    #                                           image=request.FILES['image']
-    #         )
-    #         advertisement.save()
-    #         return HttpResponseRedirect('/kazan/')
-
-    # else:
     form = CreateAdForm()
     # else:
     #     return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
@@ -48,7 +35,7 @@ def create_ad(request):
                                               image=request.FILES['image']
             )
             advertisement.save()
-            return HttpResponseRedirect('/kazan/')
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
     else:
         form = CreateAdForm()
@@ -59,7 +46,7 @@ def user_detail(request, user_id):
 
     user = get_object_or_404(Owner, id=user_id)
     latest_ad_list = Ad.objects.filter(owner_id=user_id)
-    return render(request, 'kazan/user_detail.html', {'user': user,'latest_ad_list': latest_ad_list})
+    return render(request, 'kazan/user_detail.html', {'owner': user, 'latest_ad_list': latest_ad_list})
 
 def ad_detail(request, ad_id):
 
@@ -84,12 +71,12 @@ def buy_ad(request, ad_id):
         sale.save()
         return render(request, 'kazan/sale_detail.html', {'sale': sale})
     else:
-        return HttpResponseRedirect('/kazan/')
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
 
 def owner_registration(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/kazan/')
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -98,8 +85,12 @@ def owner_registration(request):
                                             password=form.cleaned_data['passwd'],
             )
             user.save()
-            owner = Owner(user=user, image=request.FILES['image'])
+            if 'image' in request.FILES:
+                owner = Owner(user=user, image=request.FILES['image'])
+            else:
+                owner = Owner(user=user)
             owner.save()
+            send_mail('Hello!', 'You are welcome on kazan size!', settings.DEFAULT_FROM_EMAIL, [form.cleaned_data['email']])
             return HttpResponseRedirect('/kazan/registration/login')
         else:
             return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
@@ -111,7 +102,7 @@ def owner_registration(request):
 
 def login_request(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/kazan/')
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -120,7 +111,7 @@ def login_request(request):
             owner = authenticate(username=username, password=password)
             if owner is not None:
                 login(request, owner)
-                return HttpResponseRedirect('/kazan/')
+                return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
                 return render_to_response('registration/login.html', {'form': form}, context_instance=RequestContext(request))
         else:
