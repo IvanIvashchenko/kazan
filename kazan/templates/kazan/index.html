@@ -32,7 +32,7 @@
         <p>No ads are available.</p>
     {% endif %}
 
-    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <form action="{% url 'create_ad' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Добавить" />
     </form>

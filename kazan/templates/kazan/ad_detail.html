@@ -15,8 +15,7 @@
     <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="Ad image"/>
     <br/>
     Вы можете купить эту головную боль
-{#    OLOLOLOLOLOLOLO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    #}
-    <form action="{% url 'sale_detail' ad.id ad.id %}" method="POST">{% csrf_token %}
+    <form action="{% url 'buy_ad' ad.id %}" method="POST">{% csrf_token %}
         <input type="submit" value="Купить" />
     </form>
 {% endblock %}

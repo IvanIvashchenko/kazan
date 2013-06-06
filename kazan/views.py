@@ -10,9 +10,34 @@ from kazan.models import Ad, Owner, Sale
 
 def index(request):
 
+    # if not request.user.is_authenticated():
+    #     return HttpResponseRedirect('/kazan/registration/register/')
+    latest_ad_list = Ad.objects.order_by('price')[:15]
+    # if request.method == 'POST':
+    #     form = CreateAdForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         advertisement = Ad.objects.create(title=form.cleaned_data['title'],
+    #                                           text=form.cleaned_data['text'],
+    #                                           price=form.cleaned_data['price'],
+    #                                           owner=Owner.objects.get(user_id=request.session._session.get('_auth_user_id')),
+    #                                           image=request.FILES['image']
+    #         )
+    #         advertisement.save()
+    #         return HttpResponseRedirect('/kazan/')
+
+    # else:
+    form = CreateAdForm()
+    # else:
+    #     return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
+    context = {'latest_ad_list': latest_ad_list, 'form': form}
+
+    # if form.is_valid():
+    #     return HttpResponseRedirect('kazan/index.html')
+    return render(request, 'kazan/index.html', context)
+
+def create_ad(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/kazan/registration/register/')
-    latest_ad_list = Ad.objects.order_by('price')[:15]
     if request.method == 'POST':
         form = CreateAdForm(request.POST, request.FILES)
         if form.is_valid():
@@ -27,13 +52,8 @@ def index(request):
 
     else:
         form = CreateAdForm()
-    # else:
-    #     return render_to_response('registration/register.html', {'form': form}, context_instance=RequestContext(request))
-    context = {'latest_ad_list': latest_ad_list, 'form': form}
-
-    # if form.is_valid():
-    #     return HttpResponseRedirect('kazan/index.html')
-    return render(request, 'kazan/index.html', context)
+        context = {'form': form}
+        return render(request, 'kazan/index.html', context)
 
 def user_detail(request, user_id):
 
@@ -46,18 +66,26 @@ def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     return render(request, 'kazan/ad_detail.html', {'ad': ad})
 
-def sale_detail(request, sale_id, ad_id):
+def sale_detail(request, sale_id):
 
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/kazan/')
-    if request.method == 'POST':
-        advertisement = Ad.objects.get(id=ad_id)
-        owner = Owner.objects.get(id=request.user.id)
-        sale = Sale(ad=advertisement, buyer=owner)
-        sale.save()
-        return HttpResponseRedirect('/kazan/')
+        return HttpResponseRedirect('/kazan/registration/register/')
     sale = get_object_or_404(Sale, id=sale_id)
     return render(request, 'kazan/sale_detail.html', {'sale': sale})
+
+def buy_ad(request, ad_id):
+
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/kazan/registration/register/')
+    if request.method == 'POST':
+        advertisement = Ad.objects.get(id=ad_id)
+        owner = Owner.objects.get(user_id=request.user.id)
+        sale = Sale(ad=advertisement, buyer=owner)
+        sale.save()
+        return render(request, 'kazan/sale_detail.html', {'sale': sale})
+    else:
+        return HttpResponseRedirect('/kazan/')
+
 
 def owner_registration(request):
     if request.user.is_authenticated():

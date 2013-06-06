@@ -7,5 +7,5 @@
 
     Вы попали на страницу транзакции {{ sale.id }}
     <br/>
-    Лот {{ sale.ad_id.title }} был продан пользователю {{ sale.buyer_id.user.username }}
+    Лот <a href="{% url 'ad_detail' sale.ad.id %}">{{ sale.ad.title }}</a> был продан пользователю <a href="{% url 'user' sale.buyer.id %}">{{ sale.buyer.user.username }}</a>
 {% endblock %}
