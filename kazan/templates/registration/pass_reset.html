@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset password</title>
+</head>
+<body>
+
+{% block content %}
+<p>Введите, позязя, свой электронный адрес для получения инструкций.</p>
+
+<form action="" method="post">
+    <div style="display:none">
+        <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+    </div>
+     {{ form.email.errors }}
+    <p><label for="id_email">E-mail address:</label> {{ form.email }} <input type="submit" value="Reset password" /></p>
+</form>
+{% endblock %}
+
+</body>
+</html>

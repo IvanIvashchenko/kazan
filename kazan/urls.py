@@ -13,5 +13,15 @@ urlpatterns = patterns('',
     url(r'^buy/(?P<ad_id>\d+)/$', views.buy_ad, name='buy_ad'),
     url(r'^registration/register/$', views.owner_registration, name='registration'),
     url(r'^registration/login/$', views.login_request, name='login'),
+    url(r'^registration/login/$', views.login_request, name='login'),
     url(r'^registration/logout/$', views.logout_request, name='logout'),
+
+    url(r'^registration/user/password/reset/$', views.password_reset_custom, name="password_reset"),
+
+    url(r'^registration/user/password/reset/done/$', 'django.contrib.auth.views.password_reset_done',
+        {'template_name': 'registration/pass_reset_done.html'}),
+    url(r'^registration/user/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm',
+        {'post_reset_redirect': '/kazan/registration/user/password/done/', 'template_name': 'registration/pass_reset_confirm.html'}),
+    url(r'^registration/user/password/done/$', 'django.contrib.auth.views.password_reset_complete',
+        {'template_name': 'registration/pass_reset_complete.html'}),
 )

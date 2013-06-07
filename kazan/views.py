@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.views import password_reset
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
@@ -125,3 +126,10 @@ def login_request(request):
 def logout_request(request):
         logout(request)
         return HttpResponseRedirect('/kazan/registration/login')
+
+def password_reset_custom(request):
+    return password_reset(request, template_name='registration/pass_reset.html',
+                          subject_template_name = 'registration/password_reset_subj.txt',
+                          post_reset_redirect = '/kazan/registration/user/password/reset/done/',
+                          email_template_name = 'registration/pass_reset_email.html'
+     )

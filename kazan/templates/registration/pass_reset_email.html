@@ -1,0 +1,15 @@
+{% autoescape off %}
+Вы получили ето письмо, потому что вы (или кто-то другой) запросил смену пароля на сайте {{ site_name }}.
+
+Пожалуйста, перейдите по ссылке ниже и установите свой новый пароль:
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'django.contrib.auth.views.password_reset_confirm' uidb36=uid token=token %}
+{% endblock %}
+
+Ваш никнейм на сайте, есле вы вдруг забыли: {{ user.username }}
+
+Спасибо!
+
+Команда {{ site_name }}.
+
+{% endautoescape %}

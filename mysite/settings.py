@@ -173,5 +173,9 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'pythonpython14@gmail.com'
 
 LOGIN_REDIRECT_URL = '/kazan/'
+LOGIN_URL = '/kazan/registration/login/'
 
 AUTH_PROFILE_MODULE = 'kazan.Owner'
+
+# for correct site_name
+SITE_ID = 3
