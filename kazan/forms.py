@@ -18,7 +18,7 @@ class RegistrationForm(ModelForm):
         exclude = ('user',)
 
     def clean_username(self):
-        username = self.cleaned_data['username']
+        username = self.cleaned_data.get('username')
         try:
             User.objects.get(username=username)
         except User.DoesNotExist:
@@ -31,6 +31,13 @@ class RegistrationForm(ModelForm):
         if password != checked_password:
             raise forms.ValidationError('The passwords did not match.  Please try again.')
         return password
+
+    def clean_email(self):
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).exclude(username=username).count():
+            raise forms.ValidationError(u'Email addresses must be unique.')
+        return email
 
 class LoginForm(forms.Form):
     username = forms.CharField(label=('User Name'))
