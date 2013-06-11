@@ -44,7 +44,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(label=('Password'), widget=forms.PasswordInput(render_value=False))
 
 class CreateAdForm(forms.Form):
-
     title = forms.CharField(max_length=50)
     text = forms.CharField(widget=forms.Textarea)
     price = forms.FloatField()
